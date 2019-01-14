@@ -31,6 +31,18 @@ uint8_t ComPortSetup = SERIAL_8N1;
 
 bool firstStart = true;
 
+//EEPROM:
+#define EEPROM_SendMode 0
+#define EEPROM_MinIntegerPlaces 1
+#define EEPROM_MaxIntegerPlaces 3
+#define EEPROM_MinDecimalPlaces 5
+#define EEPROM_MaxDecimalPlaces 7
+#define EEPROM_StartEndChar 9
+#define EEPROM_LineEnd 10
+#define EEPROM_Delimiter 11
+#define EEPROM_ComPortBaudRate 12
+#define EEPROM_ComPortSetup 14
+
 //The Button function you have to define by yourself
 uint8_t getButton() {
   int adc_key_in = analogRead(0);
