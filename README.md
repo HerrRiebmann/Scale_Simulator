@@ -7,8 +7,8 @@ Several things can be setup on the device, like:
 * Min./Max. values
 * No. of decimal places
 * Baudrate, Parity, ect.
-* Delimeter (. / ,)
-* Start-/Endchar (STX / ETX / < / >)
+* Delimeter
+* Start-/Endchar
 
 ### Hardware
 * Arduino Duemilanove
@@ -18,6 +18,45 @@ Several things can be setup on the device, like:
 * LiquidCrystal
 * [SimpleUI16x2](https://github.com/dserv01/SimpleUI16x2)
 * EEPROM
+
+### Menu
+**UP & Down:** changes the value.
+
+**Select:** Confirms the current menu entry or sends the command
+
+**Left:** Go back
+
+* Listen (*Waits for command*)
+* Send (*Shows last command to send*)
+  * S
+  * SI
+  * ... (*See [Commands]() below*)
+* Setup
+  * Values
+    * Min. places
+    * Max. places
+    * Min. dec. places
+    * Max. dec. places
+  * Line End
+    * None
+    * CarriageReturn
+    * Linefeed
+    * CR+LF
+    * LF+CR
+  * Start/End
+    * None
+    * STX / ETX
+    * < / > 
+  * Delimiter
+    * . (Dot)
+    * , (Comma)
+  * Com-Port Baud   
+  * Com-Port Setup
+    * 5N1 - 8O2 [Serial](https://www.arduino.cc/en/Serial/Begin)
+
+### Commands
+* S, SI, SIR, SR, SX, SXI, SXI, RN, RM, FP0, GB1, P
+* D -> Prints everything followed on the display (DHello World!)
 
 ### Sample Outputs
 ```
