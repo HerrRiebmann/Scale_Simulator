@@ -30,7 +30,7 @@ Several things can be setup on the device, like:
 * Send (*Shows last command to send*)
   * S
   * SI
-  * ... (*See [Commands]() below*)
+  * ... (*See [Commands](https://github.com/HerrRiebmann/Scale_Simulator/blob/master/README.md#commands) below*)
 * Setup
   * Values
     * Min. places
