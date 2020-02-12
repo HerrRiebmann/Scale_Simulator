@@ -78,3 +78,4 @@ P:
   Time:    16:28:42
   Gross      2.02kg
 ```
+![Arduino Duemilanove - LCD Keypad Shield](https://raw.githubusercontent.com/HerrRiebmann/Scale_Simulator/master/Due%20LCD%20Keypad.jpg)
