@@ -79,3 +79,6 @@ P:
   Gross      2.02kg
 ```
 ![Arduino Duemilanove - LCD Keypad Shield](https://raw.githubusercontent.com/HerrRiebmann/Scale_Simulator/master/Due%20LCD%20Keypad.jpg)
+
+3D printed case from Thingiverse:
+[![3D printed Case](https://raw.githubusercontent.com/HerrRiebmann/Scale_Simulator/master/Scale%20Simulator%20Case.jpg)](https://www.thingiverse.com/thing:2134481)
