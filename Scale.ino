@@ -13,15 +13,22 @@ void processInput(){
 }
 
 void GetScaleCommand(){
-  bool found = false;
+  bool found = false;  
   for(int i = 0; i < NoOfSendModes; i++){    
-    if(!strncmp(SendModes[i], inputCommand, inputCounter-1))
-    {  
-      SendMode = i;
-      found = true;
+    if(strlen(SendModes[i]) == inputCounter-1)
+      for(int j = 0; j < inputCounter-1; j++)
+        if(SendModes[i][j] == inputCommand[j]){          
+          SendMode = i;
+          found = true;          
+        }
+        else{
+          found = false;
+          break;
+        }
+    if(found)
       break;
-    }
   }
+
   if(found){
     CreateWeightString();
   }
@@ -115,7 +122,7 @@ void CreateWeightString(){
     case 7: //RN (standstill)
       delay(150);
     case 8: //RM (On the move/Immediately)    
-      sprintf(weight, "0013.16.1813:37   11% 5d%s%.2d% 5d%s%.2d% 5d%s%.2d%s T 001   45678", i, del, d, i-i_net, del, d-d_net, i_net, del, d_net, unit);
+      sprintf(weight, "0013.16.2113:37   11% 5d%s%.2d% 5d%s%.2d% 5d%s%.2d%s T 001   45678", i, del, d, i-i_net, del, d-d_net, i_net, del, d_net, unit);
     break;
     case 9: //<FP0>
       sprintf(weight, "% 10d%s%.2d %s% 10d%s%.2d %s% 10d%s%.2d %s", i, del, d, unit, i_net, del, d_net, unit, i-i_net, del, d-d_net, unit);
@@ -127,7 +134,10 @@ void CreateWeightString(){
       //  Date:    18.05.03
       //Time:    16:28:42
       //Gross      0.40kg
-      sprintf(weight, "  Date:    18.05.03\r\n  Time:    16:28:42\r\n  Gross      %1d%s%02d%s\r\n", i, del, d, unit);
+      sprintf(weight, "  Date:    13.06.21\r\n  Time:    16:28:42\r\n  Gross      %1d%s%02d%s\r\n", i, del, d, unit);
+    break;
+    case 12: //<FP>
+      sprintf(weight, ";     54993;13.06.2021;13:37:11;1;1;       0;%s;%6d%s%02d;%6d%s%.2d;%6d%s%02d;\r\n<FP>", unit, i, del, d, i_net, del, d_net, i, del, d);
     break;
   }
   
@@ -184,4 +194,3 @@ void SendEnd(){
   }
   Serial.flush();
 }
-

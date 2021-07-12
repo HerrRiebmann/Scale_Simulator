@@ -8,9 +8,9 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 char inputCommand[33];
 uint8_t inputCounter = 0;
 
-#define NoOfSendModes 12
+#define NoOfSendModes 13
 uint8_t SendMode = 0;
-const char* SendModes[] = {"S", "SI", "SIR", "SR", "SX", "SXI", "SXI", "RN", "RM", "FP0", "GB1", "P"};
+const char* SendModes[] = {"S", "SI", "SIR", "SR", "SX", "SXI", "SXI", "RN", "RM", "FP0", "GB1", "P", "FP"};
 
 //Settings:
 uint16_t MinIntegerPlaces = 0;
@@ -68,7 +68,7 @@ SimpleUI16x2 simpleui(&lcd, getButton);
 //////////////////////////////////////////////////////////////
 
 void setup() {
-  simpleui.write("Scale Simulator", "V1.0 by Thomas Riebmann");
+  simpleui.write("Scale Simulator", "V1.1 by Thomas Riebmann");
   delay(1000);
   for (int i = 0; i <= 10; i++) {
     lcd.scrollDisplayLeft();
