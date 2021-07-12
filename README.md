@@ -55,7 +55,7 @@ Several things can be setup on the device, like:
     * 5N1 - 8O2 [Serial](https://www.arduino.cc/en/Serial/Begin)
 
 ### Commands
-* S, SI, SIR, SR, SX, SXI, SXI, RN, RM, FP0, GB1, P
+* S, SI, SIR, SR, SX, SXI, SXI, RN, RM, FP0, GB1, P, FP
 * D -> Prints everything followed on the display (DHello World!)
 
 ### Sample Outputs
@@ -77,6 +77,8 @@ P:
   Date:    18.05.03
   Time:    16:28:42
   Gross      2.02kg
+FP ;     54993;13.06.2021;13:37:11;1;1;       0;kg;     4.07;     1.06;     4.07;
+<FP>
 ```
 ![Arduino Duemilanove - LCD Keypad Shield](https://raw.githubusercontent.com/HerrRiebmann/Scale_Simulator/master/Due%20LCD%20Keypad.jpg)
 
