@@ -115,9 +115,11 @@ void CreateWeightString(){
     case 4:
     case 5:
     case 6:    
-      sprintf(weight, " A011% 9d%s%.1d %s   A012% 9d%s%.1d %s   A013% 9d%s%.1d %s   A310%8sA311%42sA312%17sA019",
-      i, del, d, unit, i_net, del, d_net, unit, i-i_net, del, d-d_net, unit, "", "", "");
-      //sprintf(weight, "% 10d%s%.2d %s% 10d%s%.2d %s% 10d%s%.2d %s", i, del, d, unit, i_net, del, d_net, unit, i-i_net, del, d-d_net, unit);
+      //sprintf interprets from right to left, so decrement weight no:
+      CurrentWeightNo += 7;
+      sprintf(weight, " A%.3d% 9d%s%.1d %s   A%.3d% 9d%s%.1d %s   A%.3d% 9d%s%.1d %s   A%.3d%8sA%.3d%42sA%.3d%17sA%.3d",
+      CurrentWeightNo--, i, del, d, unit, CurrentWeightNo--, i_net, del, d_net, unit, CurrentWeightNo--, i-i_net, del, d-d_net, unit, CurrentWeightNo--, "", CurrentWeightNo--, "", CurrentWeightNo--, "", CurrentWeightNo--);
+      CurrentWeightNo += 7;
     break;    
     case 7: //RN (standstill)
       delay(150);

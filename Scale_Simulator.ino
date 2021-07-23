@@ -31,6 +31,8 @@ uint8_t ComPortSetup = SERIAL_8N1;
 
 bool firstStart = true;
 
+uint16_t CurrentWeightNo = 315;
+
 //EEPROM:
 #define EEPROM_SendMode 0
 #define EEPROM_MinIntegerPlaces 1
@@ -68,7 +70,7 @@ SimpleUI16x2 simpleui(&lcd, getButton);
 //////////////////////////////////////////////////////////////
 
 void setup() {
-  simpleui.write("Scale Simulator", "V1.1 by Thomas Riebmann");
+  simpleui.write("Scale Simulator", "V1.1 by Thomas Rietschel");
   delay(1000);
   for (int i = 0; i <= 10; i++) {
     lcd.scrollDisplayLeft();
