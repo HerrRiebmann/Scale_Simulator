@@ -53,6 +53,8 @@ Several things can be setup on the device, like:
   * Com-Port Baud   
   * Com-Port Setup
     * 5N1 - 8O2 [Serial](https://www.arduino.cc/en/Serial/Begin)
+  * Send Bytedelay
+    * Maximum random number between sending single bytes (0 = Off/send all at once)
 
 ### Commands
 * S, SI, SIR, SR, SX, SXI, SXI, RN, RM, FP0, GB1, P, FP
