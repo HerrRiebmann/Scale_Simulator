@@ -5,9 +5,12 @@
 //CONFIGURATION/////////////////////////////////////////////
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
+#define DEBUG 0
+
 char inputCommand[33];
 uint8_t inputCounter = 0;
 
+#define SendBufferLength 250
 #define NoOfSendModes 13
 uint8_t SendMode = 0;
 const char* SendModes[] = {"S", "SI", "SIR", "SR", "SX", "SXI", "SXI", "RN", "RM", "FP0", "GB1", "P", "FP"};
@@ -33,6 +36,8 @@ bool firstStart = true;
 
 uint16_t CurrentWeightNo = 315;
 
+uint8_t PartialSendingMaxDelay = 20; //0 = off
+
 //EEPROM:
 #define EEPROM_SendMode 0
 #define EEPROM_MinIntegerPlaces 1
@@ -44,6 +49,7 @@ uint16_t CurrentWeightNo = 315;
 #define EEPROM_Delimiter 11
 #define EEPROM_ComPortBaudRate 12
 #define EEPROM_ComPortSetup 14
+#define EEPROM_PartialSendingMaxDelay 16
 
 //The Button function you have to define by yourself
 uint8_t getButton() {
@@ -69,17 +75,21 @@ uint8_t getButton() {
 SimpleUI16x2 simpleui(&lcd, getButton);
 //////////////////////////////////////////////////////////////
 
-void setup() {
+void setup() {  
   simpleui.write("Scale Simulator", "V1.1 by Thomas Rietschel");
   delay(1000);
+  
+#if !DEBUG  
   for (int i = 0; i <= 10; i++) {
     lcd.scrollDisplayLeft();
     delay(300);
   }
+#endif
 
   InitializeData();
   Serial.begin(ComPortBaudRate, ComPortSetup);  
   simpleui.clear();
+  PrintStorage();
 }
 
 void loop() {

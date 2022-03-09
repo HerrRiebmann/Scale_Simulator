@@ -23,8 +23,10 @@ void mainMenu(){
 void setupMenu(){
   char buffer[20];
   uint16_t i;
-  char* menu[] = {"Values","Line End", "Start/End", "Delimiter", "Com-Port Baud", "Com-Port Setup", 0}; //last entry has to be 0
-  switch(simpleui.showMenu("Setup",menu)){
+  char* menu[] = {"Values","Line End", "Start/End", "Delimiter", "Com-Port Baud", "Com-Port Setup", "Send Bytedelay", 0}; //last entry has to be 0
+  uint8_t selection = simpleui.showMenu("Setup",menu);
+  Serial.println("Selection: " + String(selection));
+  switch(selection){
     case 0: //Values
       valuesMenu();
       break;
@@ -63,6 +65,7 @@ void setupMenu(){
       }
       break;
       case 5: //Com-Port Setup
+      {
         const char* submenu[] = {"5N1","6N1","7N1","8N1(Default)","5N2","6N2","7N2","8N2","5E1",
                         "6E1","7E1","8E1","5E2","6E2","7E2","8E2","5O1","6O1","7O1",
                         "8O1","5O2","6O2","7O2","8O2"};
@@ -78,7 +81,15 @@ void setupMenu(){
             Serial.end();
             Serial.begin(ComPortBaudRate, ComPortSetup);
           }
+      }
       break;
+      case 6: //Send Byte delay
+      {        
+        PartialSendingMaxDelay = simpleui.getUInt(PartialSendingMaxDelay);
+        simpleui.toString(PartialSendingMaxDelay, buffer, 20);        
+        UpdateData(buffer);
+      }
+      break;      
   }
 }
 
@@ -170,4 +181,3 @@ void ListenMode(){
     getInput();    
   }
 }
-

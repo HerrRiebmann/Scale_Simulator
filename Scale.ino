@@ -73,7 +73,7 @@ void CreateWeightString(){
   else
     d_net = d;
   
-  char weight[150];
+  char weight[SendBufferLength];
 
   //Display Output
   sprintf(weight, "%5d%s%02d%s", i, del, d, unit);
@@ -97,6 +97,7 @@ void CreateWeightString(){
     break;
     case 10: //GB
     case 11: //P
+    case 12: //<FP>
       //Nothing
     break;
     default: //SXXX
@@ -139,11 +140,14 @@ void CreateWeightString(){
       sprintf(weight, "  Date:    13.06.21\r\n  Time:    16:28:42\r\n  Gross      %1d%s%02d%s\r\n", i, del, d, unit);
     break;
     case 12: //<FP>
-      sprintf(weight, ";     54993;13.06.2021;13:37:11;1;1;       0;%s;%6d%s%02d;%6d%s%.2d;%6d%s%02d;\r\n<FP>", unit, i, del, d, i_net, del, d_net, i, del, d);
+      sprintf(weight, "%c;     54993;13.06.2021;13:37:11;1;1;       0;%s;%6d%s%02d;%6d%s%.2d;%6d%s%02d;%c\r\n<FP>", 0x02, unit, i, del, d, i_net, del, d_net, i, del, d, 0x03);
     break;
   }
-  
-  Serial.print(weight);
+
+  if(PartialSendingMaxDelay)
+    SendWeightPartially(weight);
+  else
+    Serial.print(weight);
   
   SendEnd();  
 }
@@ -195,4 +199,13 @@ void SendEnd(){
     break;
   }
   Serial.flush();
+}
+void SendWeightPartially(char* weight){  
+ for(uint8_t i = 0; i < SendBufferLength; i++){
+  if(weight[i] == '\0')
+    break;
+  if(i % 2 == 0 && i > 10)
+    delay(random(0,PartialSendingMaxDelay));
+  Serial.print(weight[i]);
+ }
 }
