@@ -24,8 +24,7 @@ void setupMenu(){
   char buffer[20];
   uint16_t i;
   char* menu[] = {"Values","Line End", "Start/End", "Delimiter", "Com-Port Baud", "Com-Port Setup", "Send Bytedelay", 0}; //last entry has to be 0
-  uint8_t selection = simpleui.showMenu("Setup",menu);
-  Serial.println("Selection: " + String(selection));
+  uint8_t selection = simpleui.showMenu("Setup",menu);  
   switch(selection){
     case 0: //Values
       valuesMenu();
