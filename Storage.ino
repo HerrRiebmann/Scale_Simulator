@@ -12,6 +12,7 @@ void InitializeData(){
   ComPortBaudRate = eepromReadInt(EEPROM_ComPortBaudRate);  
   ComPortSetup = EEPROM.read(EEPROM_ComPortSetup);
   PartialSendingMaxDelay = EEPROM.read(EEPROM_PartialSendingMaxDelay);
+  CurrentWeightNo = eepromReadInt(EEPROM_CurrentWeightNo);
 }
 
 void StoreData(){
@@ -28,6 +29,7 @@ void StoreData(){
   eepromWriteInt(EEPROM_ComPortBaudRate, ComPortBaudRate);  
   EEPROM.update(EEPROM_ComPortSetup, ComPortSetup);
   EEPROM.update(EEPROM_PartialSendingMaxDelay, PartialSendingMaxDelay);
+  eepromWriteInt(EEPROM_CurrentWeightNo, CurrentWeightNo);
 #if DEBUG
   Serial.println("Stored!");
   PrintStorage();
@@ -74,5 +76,7 @@ void PrintStorage(){
   Serial.println(ComPortSetup); 
   Serial.print("Byte sending delay: ");
   Serial.println(PartialSendingMaxDelay); 
+  Serial.print("Current Weight No: ");
+  Serial.println(CurrentWeightNo); 
 #endif
 }

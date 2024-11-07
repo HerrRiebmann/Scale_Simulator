@@ -1,3 +1,5 @@
+//Board:
+//Arduino Duemilanove + LCD Shield//////////////////////////
 #include <LiquidCrystal.h>
 #include <SimpleUI16x2.h>
 #include <EEPROM.h>
@@ -11,9 +13,10 @@ char inputCommand[33];
 uint8_t inputCounter = 0;
 
 #define SendBufferLength 250
-#define NoOfSendModes 13
+#define NoOfSendModes 14
 uint8_t SendMode = 0;
-const char* SendModes[] = {"S", "SI", "SIR", "SR", "SX", "SXI", "SXI", "RN", "RM", "FP0", "GB1", "P", "FP"};
+const char mode_01[] = {0x01};
+const char* SendModes[] = {"S", "SI", "SIR", "SR", "SX", "SXI", "SXI", "RN", "RM", "FP0", "GB1", "P", "FP", mode_01};
 
 //Settings:
 uint16_t MinIntegerPlaces = 0;
@@ -50,6 +53,7 @@ uint8_t PartialSendingMaxDelay = 20; //0 = off
 #define EEPROM_ComPortBaudRate 12
 #define EEPROM_ComPortSetup 14
 #define EEPROM_PartialSendingMaxDelay 16
+#define EEPROM_CurrentWeightNo 17
 
 //The Button function you have to define by yourself
 uint8_t getButton() {
@@ -76,7 +80,7 @@ SimpleUI16x2 simpleui(&lcd, getButton);
 //////////////////////////////////////////////////////////////
 
 void setup() {  
-  simpleui.write("Scale Simulator", "V1.1 by Thomas Rietschel");
+  simpleui.write("Scale Simulator", "V1.2 by Thomas Rietschel");
   delay(1000);
   
 #if !DEBUG  
@@ -87,7 +91,7 @@ void setup() {
 #endif
 
   InitializeData();
-  Serial.begin(ComPortBaudRate, ComPortSetup);  
+  Serial.begin(ComPortBaudRate, ComPortSetup);
   simpleui.clear();
   PrintStorage();
 }

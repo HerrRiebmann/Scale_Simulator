@@ -13,11 +13,13 @@ void processInput(){
 }
 
 void GetScaleCommand(){
-  bool found = false;  
-  for(int i = 0; i < NoOfSendModes; i++){    
-    if(strlen(SendModes[i]) == inputCounter-1)
+  bool found = false;    
+  for(int i = 0; i < NoOfSendModes; i++){
+    uint8_t ModeLen = strlen(SendModes[i]);
+    ModeLen = ModeLen == 0 ? 1 : ModeLen;
+    if(ModeLen == inputCounter-1)
       for(int j = 0; j < inputCounter-1; j++)
-        if(SendModes[i][j] == inputCommand[j]){          
+        if(SendModes[i][j] == inputCommand[j]){
           SendMode = i;
           found = true;          
         }
@@ -29,12 +31,10 @@ void GetScaleCommand(){
       break;
   }
 
-  if(found){
+  if(found)
     CreateWeightString();
-  }
-  else{
-    CreateUnknownString();    
-  }
+  else
+    CreateUnknownString();
 }
 
 void PrintData(){
@@ -76,7 +76,7 @@ void CreateWeightString(){
   char weight[SendBufferLength];
 
   //Display Output
-  sprintf(weight, "%5d%s%02d%s", i, del, d, unit);
+  sprintf(weight, "%5d%s%d%s", i, del, d, unit);
   simpleui.overwrite(1,0,">               ");
   simpleui.overwrite(1,1,(char*)SendModes[SendMode]);
   if(inputCounter == 0)
@@ -97,9 +97,10 @@ void CreateWeightString(){
     break;
     case 10: //GB
     case 11: //P
-    case 12: //<FP>
+    case 12: //<FP>      
+    case 13: //0x01
       //Nothing
-    break;
+      break;
     default: //SXXX
       Serial.print(SendModes[SendMode]);
       for(int i = 0; i < 4 - inputCounter; i++)
@@ -116,11 +117,12 @@ void CreateWeightString(){
     case 4:
     case 5:
     case 6:    
-      //sprintf interprets from right to left, so decrement weight no:
+      //sprintf interprets from right to left, so decrement weight no:      
       CurrentWeightNo += 7;
       sprintf(weight, " A%.3d% 9d%s%.1d %s   A%.3d% 9d%s%.1d %s   A%.3d% 9d%s%.1d %s   A%.3d%8sA%.3d%42sA%.3d%17sA%.3d",
       CurrentWeightNo--, i, del, d, unit, CurrentWeightNo--, i_net, del, d_net, unit, CurrentWeightNo--, i-i_net, del, d-d_net, unit, CurrentWeightNo--, "", CurrentWeightNo--, "", CurrentWeightNo--, "", CurrentWeightNo--);
       CurrentWeightNo += 7;
+      eepromWriteInt(EEPROM_CurrentWeightNo, CurrentWeightNo);
     break;    
     case 7: //RN (standstill)
       delay(150);
@@ -142,6 +144,10 @@ void CreateWeightString(){
     case 12: //<FP>
       sprintf(weight, "%c;     54993;13.06.2021;13:37:11;1;1;       0;%s;%6d%s%02d;%6d%s%.2d;%6d%s%02d;%c\r\n<FP>", 0x02, unit, i, del, d, i_net, del, d_net, i, del, d, 0x03);
     break;
+    case 13: //0x01
+      //ab Stelle 11 Länge 8 für das Nettogewicht und ab Stelle 19 Länge 2 für die Mengeneinheit.
+      sprintf(weight, "ABCDEFGHIJ%5d%s%.2d%s", i, del, d,unit);
+    break;
   }
 
   if(PartialSendingMaxDelay)
@@ -157,7 +163,16 @@ void CreateUnknownString(){
   simpleui.overwrite(1,1,inputCommand);
 
   SendStart();
-  Serial.print("? Unknown");
+  for(int i = 0; i < inputCounter; i++){
+    if(i > 0)
+      Serial.print(" ");
+    Serial.write(inputCommand[i]);
+    Serial.print(" 0x");
+    Serial.print(GetHex(inputCommand[i]));
+  }
+  Serial.println(" Unknown!");
+
+  Serial.print(GetHex(SendModes[13][0]));  
   SendEnd();
 }
 
@@ -208,4 +223,13 @@ void SendWeightPartially(char* weight){
     delay(random(0,PartialSendingMaxDelay));
   Serial.print(weight[i]);
  }
+}
+
+String GetHex(uint8_t data) {
+  String str;
+  if (data < 0x10)
+    str = "0";
+  str.concat(String(data, HEX));
+  str.toUpperCase();
+  return str;
 }

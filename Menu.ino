@@ -1,6 +1,4 @@
 void mainMenu(){
-  char buffer[20];
-  uint16_t i;
   char* menu[] = {"Listen","Send", "Setup", 0}; //last entry has to be 0
   switch(simpleui.showMenu("Scale Simulator",menu)){
     case 0:      
@@ -22,7 +20,6 @@ void mainMenu(){
 
 void setupMenu(){
   char buffer[20];
-  uint16_t i;
   char* menu[] = {"Values","Line End", "Start/End", "Delimiter", "Com-Port Baud", "Com-Port Setup", "Send Bytedelay", 0}; //last entry has to be 0
   uint8_t selection = simpleui.showMenu("Setup",menu);  
   switch(selection){
@@ -93,8 +90,7 @@ void setupMenu(){
 }
 
 void valuesMenu(){
-    char buffer[20];
-  uint16_t i;
+  char buffer[20];  
   char* menu[] = {"Min. places","Max. places", "Min. dec. places", "Max. dec. places", 0}; //last entry has to be 0
   switch(simpleui.showMenu("Values",menu)){
     case 0:      
